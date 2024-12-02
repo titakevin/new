@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohtəşəm Kalkulyator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(45deg, #000000, #000000);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+    }
+
+    .calculator {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 10px 20px rgba(0, 0, 0, 0.3);
+      width: 300px;
+    }
+
+    .display {
+      background: #333;
+      padding: 15px;
+      text-align: right;
+      border-radius: 10px;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      background: #555;
+      color: yellow;
+      font-size: 1.2em;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #00ff00, #0000ff);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .history {
+      margin-top: 20px;
+      color: white;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .history ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .history li {
+      margin: 5px 0;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 1.2em;
+      text-align: center;
+      color: #ffcc00;
+      background-color: #222;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+    }
+
+    .footer:hover {
+      color: #00ff00;
+      transform: scale(1.1);
+      transition: 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="appendValue('/')">/</button>
+      <button onclick="appendValue('*')">*</button>
+      <button onclick="deleteLast()">DEL</button>
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button onclick="appendValue('-')">-</button>
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button onclick="appendValue('+')">+</button>
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="appendValue('0')">0</button>
+      <button onclick="appendValue('.')">.</button>
+    </div>
+    <div class="history">
+      <h3>History</h3>
+      <ul id="historyList"></ul>
+    </div>
+  </div>
+  <select id="themeSelector" onchange="changeTheme()">
+    <option value="#000000">Dark</option>
+    <option value="#ffffff">Light</option>
+    <option value="#4e54c8">Blue</option>
+    <option value="#8f94fb">Purple</option>
+  </select>
+  <footer class="footer">
+    By Design Kamal
+  </footer>
+  <script>
+    const display = document.getElementById('display');
+    const historyList = document.getElementById('historyList');
+
+    function clearDisplay() {
+      display.innerText = '0';
+    }
+
+    function appendValue(value) {
+      if (display.innerText === '0') {
+        display.innerText = value;
+      } else {
+        display.innerText += value;
+      }
+    }
+
+    function deleteLast() {
+      display.innerText = display.innerText.slice(0, -1);
+      if (display.innerText === '') {
+        display.innerText = '0';
+      }
+    }
+
+    function calculate() {
+      try {
+        const result = eval(display.innerText);
+        historyList.innerHTML += `<li>${display.innerText} = ${result}</li>`;
+        display.innerText = result;
+      } catch {
+        display.innerText = 'Error';
+      }
+    }
+
+    function changeTheme() {
+      const theme = document.getElementById('themeSelector').value;
+      document.body.style.background = theme;
+    }
+  </script>
+</body>
+</html>
